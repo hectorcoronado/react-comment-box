@@ -1,12 +1,15 @@
 # LEARN U MERN
 
-This app was created by following:
+![code](https://media.giphy.com/media/ZVik7pBtu9dNS/giphy-downsized.gif)
 
-https://github.com/bryantheastronaut/mernCommentBox
+### This app was created by following:
 
-And uses:
+#### https://github.com/bryantheastronaut/mernCommentBox
+
+### And uses:
 
 - React
 - Mongoose/MongoDB
 - Express
 - Axios
+- marked
