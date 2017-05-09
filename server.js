@@ -45,29 +45,69 @@ router.get('/', function(req, res) {
   res.json({ message: 'API Initialized!'});
 });
 
-//adding the /comments route to our /api router
+// api/comments route:
 router.route('/comments')
-  //retrieve all comments from the database
+  /////////
+  // GET //
+  /////////
   .get(function(req, res) {
     //looks at our Comment Schema
     Comment.find(function(err, comments) {
-      if (err)
+      if (err) {
         res.send(err);
+      }
       //responds with a json object of our database comments.
       res.json(comments)
     });
   })
-  //post new comment to the database
+  //////////
+  // POST //
+  //////////
   .post(function(req, res) {
     var comment = new Comment();
-    //body parser lets us use the req.body
+    //body parser lets us use req.body
     comment.author = req.body.author;
     comment.text = req.body.text;
 
     comment.save(function(err) {
-      if (err)
+      if (err) {
         res.send(err);
+      }
       res.json({ message: 'Comment successfully added!' });
+    });
+  });
+
+// api/comments/:comment_id route:
+router.route('/comments/:comment_id')
+  ////////////
+  // UPDATE //
+  ////////////
+  .put(function(req, res) {
+    Comment.findById(req.params.comment_id, function(err, comment) {
+      if (err) {
+        res.send(err);
+      }
+      // set author and text only if field's text changed:
+      (req.body.author) ? comment.author = req.body.author : null;
+      (req.body.text) ? comment.text = req.body.text : null;
+
+      comment.save(function(err) {
+        if (err) {
+          res.send(err);
+        }
+        res.json({ message: 'Comment has been updated.' });
+      });
+    });
+  })
+  ////////////
+  // DELETE //
+  ////////////
+  .delete(function(req, res) {
+    Comment.remove({ _id: req.params.comment_id }, function(err, comment) {
+      if (err) {
+        res.send(err);
+      }
+      res.json({ message: 'Comment has been deleted.' });
     });
   });
 

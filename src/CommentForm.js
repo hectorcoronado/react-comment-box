@@ -32,7 +32,6 @@ class CommentForm extends Component {
 
     this.props.onCommentSubmit({ author, text });
     this.setState({ author: '', text: '' });
-    console.log(`${this.state.author} said "${this.state.text}."`);
   }
 
   render() {
