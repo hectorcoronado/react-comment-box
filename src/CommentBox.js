@@ -25,7 +25,17 @@ class CommentBox extends Component {
   }
 
   handleCommentSubmit(comment) {
-    // add POST request
+    let comments = this.state.data;
+    comment.id = Date.now();
+    let newComments = [...comments, comment];
+
+    this.setState({ data: newComments });
+
+    axios.post(this.props.url, comment)
+      .catch( err => {
+        console.error(err);
+        this.setState({ data: comments });
+      });
   }
 
   componentDidMount() {
@@ -38,7 +48,7 @@ class CommentBox extends Component {
       <div style={ style.commentBox }>
         <h2>Comments:</h2>
         <CommentList data={ this.state.data } />
-        <CommentForm />
+        <CommentForm onCommentSubmit={ this.handleCommentSubmit }/>
       </div>
     );
   }
